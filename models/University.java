@@ -1,3 +1,5 @@
+package models;
+import java.util.Objects;
 public class University {
     //Attributes
     private String universityName;
@@ -46,11 +48,34 @@ public class University {
         }
     }
     public void printInfo() {
-        System.out.println("University → " + universityName + ", Location: " + location
+        System.out.println("models.University → " + universityName + ", Location: " + location
                 + ", Ranking: #" + worldRanking + ", Students: " + totalStudents);
     }
     //Compare two universities by ranking
     public int compareRanking(University other) {
         return Integer.compare(this.worldRanking, other.worldRanking); // Lower is better
+    }
+    @Override
+    public String toString() {
+        return "University{" +
+                "universityName='" + universityName + '\'' +
+                ", location='" + location + '\'' +
+                ", worldRanking=" + worldRanking +
+                ", totalStudents=" + totalStudents +
+                '}';
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(universityName, location, worldRanking, totalStudents);
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        University university = (University) obj;
+        return worldRanking == university.worldRanking &&
+                totalStudents == university.totalStudents &&
+                Objects.equals(universityName, university.universityName) &&
+                Objects.equals(location, university.location);
     }
 }

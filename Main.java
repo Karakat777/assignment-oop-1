@@ -1,27 +1,25 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import courseTypes.Math;
+import courseTypes.Science;
+import models.Course;
+import models.Professor;
+import models.University;
+
 public class Main {
   public static void main(String[] args) {
-    //Create objects (instances of classes)
-    Course course1 = new Course("Object-Oriented Programming", "CS201", 4, 35);
-    Course course2 = new Course("Data Structures", "CS202", 3, 28);
-    Course course3 = new Course("Database Systems", "CS301", 4, 42);
+    Course discrete = new Math("Discrete Mathematics", "DM", 20, 0, 20);
+    Course chemistry = new Science("Chemistry", "CM", 20, 0, 12, 2, true);
     Professor prof1 = new Professor("Dr.John Smith", "Computer Science", 15, true);
     Professor prof2 = new Professor("Dr.Anna Lee", "Software Engineering", 8, false);
-    University uni1 = new University("Stanford University", "California, USA", 3, 17000);
-    //Print all objects info
+    University uni1 = new University("Stanford models.University", "California, USA", 3, 17000);
     System.out.println("UNIVERSITY SYSTEM INFO");
     uni1.printInfo();
     System.out.println();
     prof1.printInfo();
     prof2.printInfo();
     System.out.println();
-    course1.printInfo();
-    course2.printInfo();
-    course3.printInfo();
-
+    discrete.printInfo();
     System.out.println("\nCOUNT TENURED PROFESSORS");
-    int tenuredCount = 0; // int variable
+    int tenuredCount = 0;
     if (prof1.isTenured()) {
       tenuredCount++;
     }
@@ -29,25 +27,25 @@ public class Main {
       tenuredCount++;
     }
     System.out.println("Number of tenured professors: " + tenuredCount);
-    //Java Basics—check course capacity
+    //Java Basics
     System.out.println("\nCHECK COURSE CAPACITY");
     int maxCapacity = 40;
-    boolean course1Full = course1.isFull(maxCapacity);
+    boolean course1Full = discrete.isFull();
     if (course1Full) {
-      System.out.println(course1.getCourseName() + " is FULL (capacity: " + maxCapacity + ")");
+      System.out.println(discrete.getCourseName() + " is FULL (capacity: " + maxCapacity + ")");
     } else {
-      System.out.println(course1.getCourseName() + " has available seats.");
+      System.out.println(discrete.getCourseName() + " has available seats.");
     }
-    //Java Basics-array + for loop
+    //Java Basics
     System.out.println("\nLOOP THROUGH COURSES");
-    Course[] courses = { course1, course2, course3 }; // array of objects
+    Course[] courses = { discrete }; // array of objects
     int totalCredits = 0;
     int maxEnrollment = 0;
     String mostPopularCourse = "";
     for (int i = 0; i < courses.length; i++) {
       int credits = courses[i].getCredits();
       int enrolled = courses[i].getEnrolledStudents();
-      System.out.println("Course " + (i + 1) + ": " + courses[i].getCourseName()
+      System.out.println("models.Course " + (i + 1) + ": " + courses[i].getCourseName()
               + " - " + credits + " credits, " + enrolled + " students");
       totalCredits += credits;
       if (enrolled > maxEnrollment) {
@@ -59,13 +57,14 @@ public class Main {
     System.out.println("Most popular course: " + mostPopularCourse + " with " + maxEnrollment + " students");
     //Compare courses by credits
     System.out.println("\nCOURSE COMPARISON");
-    int courseComparison = course1.compareCredits(course2);
-    if (courseComparison > 0) {
-      System.out.println(course1.getCourseName() + " has more credits than " + course2.getCourseName());
-    } else if (courseComparison <0) {
-      System.out.println(course2.getCourseName() + " has more credits than " + course1.getCourseName());
+
+    if (discrete.getCredits() > chemistry.getCredits()) {
+      System.out.println(discrete.getCourseName() + " has more credits than " + chemistry.getCourseName());
+    } else if (chemistry.getCredits() > discrete.getCredits()) {
+      System.out.println(chemistry.getCourseName() + " has more credits than " + discrete.getCourseName());
     } else {
       System.out.println("Both courses have the same number of credits.");
     }
   }
+
 }
