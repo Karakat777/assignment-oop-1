@@ -67,6 +67,5 @@ public class Science extends Course {
         Science science = (Science) obj;
         return maxStudentCount == science.maxStudentCount &&
                 labHours == science.labHours &&
-                hasLaboratory == science.hasLaboratory;
-    }
+                hasLaboratory == science.hasLaboratory;}
 }
