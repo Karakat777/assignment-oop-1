@@ -1,6 +1,5 @@
 package models;
 import printable.Printable;
-
 import java.util.Objects;
 public abstract class Course implements Printable {
     protected String courseName;
