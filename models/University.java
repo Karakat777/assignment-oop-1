@@ -1,6 +1,5 @@
 package models;
 import printable.Printable;
-
 import java.util.Objects;
 public class University implements Printable {
     private String universityName;
