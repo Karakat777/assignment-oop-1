@@ -21,7 +21,9 @@ public class CourseDAO {
                     courses.add(new Science(rs.getString("course_name"), rs.getString("course_code"), rs.getInt("credits"), rs.getInt("enrolled_students"), rs.getInt("max_student_count"), rs.getInt("lab_hours"), rs.getBoolean("has_laboratory")));
                 }
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return courses;
     }
 }
