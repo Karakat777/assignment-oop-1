@@ -952,6 +952,7 @@
     </div>
 </div>
 
+<!-- Add Course Modal -->
 <div id="addCourseModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -989,6 +990,47 @@
     </div>
 </div>
 
+<!-- Edit Course Modal -->
+<div id="editCourseModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit Course</h3>
+            <button class="close-btn" onclick="closeModal('editCourseModal')">&times;</button>
+        </div>
+        <form id="editCourseForm" onsubmit="updateCourse(event)">
+            <input type="hidden" name="id" id="editCourseId">
+            <input type="hidden" name="oldCode" id="editCourseOldCode">
+            <div class="form-group">
+                <label class="form-label">Course Code</label>
+                <input type="text" name="code" id="editCourseCode" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Course Name</label>
+                <input type="text" name="name" id="editCourseName" class="form-input" required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label class="form-label">Credits</label>
+                    <input type="number" name="credits" id="editCourseCredits" class="form-input" min="1" max="10" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <select name="type" id="editCourseType" class="form-input" required>
+                        <option value="General">General</option>
+                        <option value="Math">Math</option>
+                        <option value="Science">Science</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Update Course</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('editCourseModal')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add Professor Modal -->
 <div id="addProfessorModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -1025,6 +1067,45 @@
     </div>
 </div>
 
+<!-- Edit Professor Modal -->
+<div id="editProfessorModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit Professor</h3>
+            <button class="close-btn" onclick="closeModal('editProfessorModal')">&times;</button>
+        </div>
+        <form id="editProfessorForm" onsubmit="updateProfessor(event)">
+            <input type="hidden" name="id" id="editProfId">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" name="name" id="editProfName" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Specialty</label>
+                <input type="text" name="spec" id="editProfSpec" class="form-input" required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label class="form-label">Years of Experience</label>
+                    <input type="number" name="exp" id="editProfExp" class="form-input" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tenured</label>
+                    <select name="tenured" id="editProfTenured" class="form-input" required>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Update Professor</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('editProfessorModal')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add University Modal -->
 <div id="addUniversityModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -1058,38 +1139,37 @@
     </div>
 </div>
 
-<div id="editProfessorModal" class="modal">
+<!-- Edit University Modal -->
+<div id="editUniversityModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Edit Professor</h3>
-            <button class="close-btn" onclick="closeModal('editProfessorModal')">&times;</button>
+            <h3 class="modal-title">Edit University</h3>
+            <button class="close-btn" onclick="closeModal('editUniversityModal')">&times;</button>
         </div>
-        <form id="editProfessorForm" onsubmit="updateProfessor(event)">
-            <input type="hidden" name="id" id="editProfId">
+        <form id="editUniversityForm" onsubmit="updateUniversity(event)">
+            <input type="hidden" name="id" id="editUniId">
+            <input type="hidden" name="oldName" id="editUniOldName">
             <div class="form-group">
-                <label class="form-label">Full Name</label>
-                <input type="text" name="name" id="editProfName" class="form-input" required>
+                <label class="form-label">University Name</label>
+                <input type="text" name="name" id="editUniName" class="form-input" required>
             </div>
             <div class="form-group">
-                <label class="form-label">Specialty</label>
-                <input type="text" name="spec" id="editProfSpec" class="form-input" required>
+                <label class="form-label">Location</label>
+                <input type="text" name="location" id="editUniLocation" class="form-input" required>
             </div>
             <div class="grid-2">
                 <div class="form-group">
-                    <label class="form-label">Years of Experience</label>
-                    <input type="number" name="exp" id="editProfExp" class="form-input" min="0" required>
+                    <label class="form-label">World Ranking</label>
+                    <input type="number" name="rank" id="editUniRank" class="form-input" min="1" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Tenured</label>
-                    <select name="tenured" id="editProfTenured" class="form-input" required>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </select>
+                    <label class="form-label">Total Students</label>
+                    <input type="number" name="students" id="editUniStudents" class="form-input" min="0" required>
                 </div>
             </div>
             <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                <button type="submit" class="btn btn-primary" style="flex: 1;">Update Professor</button>
-                <button type="button" class="btn btn-secondary" onclick="closeModal('editProfessorModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Update University</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('editUniversityModal')">Cancel</button>
             </div>
         </form>
     </div>
@@ -1190,6 +1270,7 @@
         updateStats();
     }
 
+    // ==================== COURSES ====================
     async function loadCourses() {
         try {
             const response = await fetch(API_BASE + '/courses');
@@ -1200,133 +1281,31 @@
                 tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><div class="empty-state-icon">📚</div><div class="empty-state-text">No courses found</div></td></tr>';
             } else {
                 tbody.innerHTML = courses.map(c => `
-                        <tr>
-                            <td>${c.id}</td>
-                            <td><span class="badge badge-primary">${c.code}</span></td>
-                            <td>${c.name}</td>
-                            <td>${c.credits}</td>
-                            <td><span class="badge badge-success">${c.type}</span></td>
-                            <td>${c.enrolled || 0}</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn-icon danger" onclick="deleteCourse('${c.code}')" title="Delete">
-                                        <span>🗑</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `).join('');
+                    <tr>
+                        <td>${c.id}</td>
+                        <td><span class="badge badge-primary">${c.code}</span></td>
+                        <td>${c.name}</td>
+                        <td>${c.credits}</td>
+                        <td><span class="badge badge-success">${c.type}</span></td>
+                        <td>${c.enrolled || 0}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" onclick='openEditCourseModal(${JSON.stringify(c)})' title="Edit">
+                                    <span>✎</span>
+                                </button>
+                                <button class="btn-icon danger" onclick="deleteCourse('${c.code}')" title="Delete">
+                                    <span>🗑</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
             }
             updateStats();
         } catch (error) {
             console.error('Error loading courses:', error);
             showToast('Failed to load courses', 'error');
         }
-    }
-
-    async function loadProfessors() {
-        try {
-            const response = await fetch(API_BASE + '/professors');
-            const professors = await response.json();
-
-            const tbody = document.getElementById('professorsTable');
-            if (professors.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><div class="empty-state-icon">👨‍🏫</div><div class="empty-state-text">No professors found</div></td></tr>';
-            } else {
-                tbody.innerHTML = professors.map(p => `
-                        <tr>
-                            <td>${p.id}</td>
-                            <td>${p.name}</td>
-                            <td>${p.spec}</td>
-                            <td>${p.exp} years</td>
-                            <td><span class="badge badge-success">Active</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn-icon" onclick="openEditProfessorModal(${p.id}, '${p.name}', '${p.spec}', ${p.exp})" title="Edit">
-                                        <span>✎</span>
-                                    </button>
-                                    <button class="btn-icon danger" onclick="deleteProfessor(${p.id})" title="Delete">
-                                        <span>🗑</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `).join('');
-            }
-            updateStats();
-        } catch (error) {
-            console.error('Error loading professors:', error);
-            showToast('Failed to load professors', 'error');
-        }
-    }
-
-    async function loadUniversities() {
-        try {
-            const response = await fetch(API_BASE + '/universities');
-            const universities = await response.json();
-
-            const tbody = document.getElementById('universitiesTable');
-            if (universities.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><div class="empty-state-icon">🎓</div><div class="empty-state-text">No universities found</div></td></tr>';
-            } else {
-                tbody.innerHTML = universities.map(u => `
-                        <tr>
-                            <td>${u.id}</td>
-                            <td>${u.name}</td>
-                            <td>${u.location || 'N/A'}</td>
-                            <td><span class="badge badge-warning">#${u.rank}</span></td>
-                            <td>${u.students || 'N/A'}</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn-icon danger" onclick="deleteUniversity('${u.name}')" title="Delete">
-                                        <span>🗑</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `).join('');
-            }
-            updateStats();
-        } catch (error) {
-            console.error('Error loading universities:', error);
-            showToast('Failed to load universities', 'error');
-        }
-    }
-
-    async function loadProfessorData() {
-        await loadCourses();
-        const coursesResponse = await fetch(API_BASE + '/courses');
-        const courses = await coursesResponse.json();
-
-        const professorCourses = courses.slice(0, 3);
-        const tbody = document.getElementById('professorCoursesTable');
-
-        if (professorCourses.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><div class="empty-state-text">No courses assigned</div></td></tr>';
-        } else {
-            tbody.innerHTML = professorCourses.map(c => `
-                    <tr>
-                        <td><span class="badge badge-primary">${c.code}</span></td>
-                        <td>${c.name}</td>
-                        <td>${c.credits}</td>
-                        <td><span class="badge badge-success">${c.type}</span></td>
-                        <td>${c.enrolled || 0}</td>
-                    </tr>
-                `).join('');
-        }
-
-        const scheduleContainer = document.getElementById('professorSchedule');
-        if (professorCourses.length > 0) {
-            scheduleContainer.innerHTML = professorCourses.map((c, i) => `
-                    <div class="schedule-item">
-                        <div class="schedule-time">${['Monday 09:00-10:30', 'Wednesday 14:00-15:30', 'Friday 11:00-12:30'][i % 3]}</div>
-                        <div class="schedule-course">${c.name}</div>
-                        <div class="schedule-location">Room ${100 + i * 5}</div>
-                    </div>
-                `).join('');
-        }
-
-        updateStats();
     }
 
     async function addCourse(event) {
@@ -1355,6 +1334,52 @@
         }
     }
 
+    function openEditCourseModal(course) {
+        document.getElementById('editCourseId').value = course.id;
+        document.getElementById('editCourseOldCode').value = course.code;
+        document.getElementById('editCourseCode').value = course.code;
+        document.getElementById('editCourseName').value = course.name;
+        document.getElementById('editCourseCredits').value = course.credits;
+        document.getElementById('editCourseType').value = course.type;
+        document.getElementById('editCourseModal').classList.add('active');
+    }
+
+    async function updateCourse(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const oldCode = formData.get('oldCode');
+
+        // First delete the old course
+        try {
+            await fetch(API_BASE + '/courses/' + oldCode, { method: 'DELETE' });
+
+            // Then add the updated course
+            const data = {
+                code: formData.get('code'),
+                name: formData.get('name'),
+                credits: formData.get('credits'),
+                type: formData.get('type')
+            };
+
+            const response = await fetch(API_BASE + '/courses', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(data)
+            });
+
+            if (response.ok) {
+                showToast('Course updated successfully', 'success');
+                closeModal('editCourseModal');
+                loadCourses();
+            } else {
+                showToast('Failed to update course', 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('Error updating course', 'error');
+        }
+    }
+
     async function deleteCourse(code) {
         if (!confirm('Are you sure you want to delete this course?')) return;
 
@@ -1372,6 +1397,43 @@
         } catch (error) {
             console.error('Error:', error);
             showToast('Error deleting course', 'error');
+        }
+    }
+
+    // ==================== PROFESSORS ====================
+    async function loadProfessors() {
+        try {
+            const response = await fetch(API_BASE + '/professors');
+            const professors = await response.json();
+
+            const tbody = document.getElementById('professorsTable');
+            if (professors.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><div class="empty-state-icon">👨‍🏫</div><div class="empty-state-text">No professors found</div></td></tr>';
+            } else {
+                tbody.innerHTML = professors.map(p => `
+                    <tr>
+                        <td>${p.id}</td>
+                        <td>${p.name}</td>
+                        <td>${p.spec}</td>
+                        <td>${p.exp} years</td>
+                        <td><span class="badge badge-success">${p.tenured ? 'Tenured' : 'Active'}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" onclick='openEditProfessorModal(${JSON.stringify(p)})' title="Edit">
+                                    <span>✎</span>
+                                </button>
+                                <button class="btn-icon danger" onclick="deleteProfessor(${p.id})" title="Delete">
+                                    <span>🗑</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+            updateStats();
+        } catch (error) {
+            console.error('Error loading professors:', error);
+            showToast('Failed to load professors', 'error');
         }
     }
 
@@ -1401,31 +1463,12 @@
         }
     }
 
-    async function deleteProfessor(id) {
-        if (!confirm('Are you sure you want to delete this professor?')) return;
-
-        try {
-            const response = await fetch(API_BASE + '/professors/' + id, {
-                method: 'DELETE'
-            });
-
-            if (response.ok) {
-                showToast('Professor deleted successfully', 'success');
-                loadProfessors();
-            } else {
-                showToast('Failed to delete professor', 'error');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            showToast('Error deleting professor', 'error');
-        }
-    }
-
-    function openEditProfessorModal(id, name, spec, exp) {
-        document.getElementById('editProfId').value = id;
-        document.getElementById('editProfName').value = name;
-        document.getElementById('editProfSpec').value = spec;
-        document.getElementById('editProfExp').value = exp;
+    function openEditProfessorModal(prof) {
+        document.getElementById('editProfId').value = prof.id;
+        document.getElementById('editProfName').value = prof.name;
+        document.getElementById('editProfSpec').value = prof.spec;
+        document.getElementById('editProfExp').value = prof.exp;
+        document.getElementById('editProfTenured').value = prof.tenured.toString();
         document.getElementById('editProfessorModal').classList.add('active');
     }
 
@@ -1454,6 +1497,63 @@
         }
     }
 
+    async function deleteProfessor(id) {
+        if (!confirm('Are you sure you want to delete this professor?')) return;
+
+        try {
+            const response = await fetch(API_BASE + '/professors/' + id, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                showToast('Professor deleted successfully', 'success');
+                loadProfessors();
+            } else {
+                showToast('Failed to delete professor', 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('Error deleting professor', 'error');
+        }
+    }
+
+    // ==================== UNIVERSITIES ====================
+    async function loadUniversities() {
+        try {
+            const response = await fetch(API_BASE + '/universities');
+            const universities = await response.json();
+
+            const tbody = document.getElementById('universitiesTable');
+            if (universities.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><div class="empty-state-icon">🎓</div><div class="empty-state-text">No universities found</div></td></tr>';
+            } else {
+                tbody.innerHTML = universities.map(u => `
+                    <tr>
+                        <td>${u.id}</td>
+                        <td>${u.name}</td>
+                        <td>${u.location || 'N/A'}</td>
+                        <td><span class="badge badge-warning">#${u.rank}</span></td>
+                        <td>${u.students || 'N/A'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" onclick='openEditUniversityModal(${JSON.stringify(u)})' title="Edit">
+                                    <span>✎</span>
+                                </button>
+                                <button class="btn-icon danger" onclick="deleteUniversity('${u.name}')" title="Delete">
+                                    <span>🗑</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+            updateStats();
+        } catch (error) {
+            console.error('Error loading universities:', error);
+            showToast('Failed to load universities', 'error');
+        }
+    }
+
     async function addUniversity(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -1463,7 +1563,7 @@
             const response = await fetch(API_BASE + '/universities', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(`${data.name},${data.location},${data.rank},${data.students}`)
+                body: new URLSearchParams(data)
             });
 
             if (response.ok) {
@@ -1480,11 +1580,57 @@
         }
     }
 
+    function openEditUniversityModal(uni) {
+        document.getElementById('editUniId').value = uni.id;
+        document.getElementById('editUniOldName').value = uni.name;
+        document.getElementById('editUniName').value = uni.name;
+        document.getElementById('editUniLocation').value = uni.location;
+        document.getElementById('editUniRank').value = uni.rank;
+        document.getElementById('editUniStudents').value = uni.students;
+        document.getElementById('editUniversityModal').classList.add('active');
+    }
+
+    async function updateUniversity(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const oldName = formData.get('oldName');
+
+        // First delete the old university
+        try {
+            await fetch(API_BASE + '/universities/' + encodeURIComponent(oldName), { method: 'DELETE' });
+
+            // Then add the updated university
+            const data = {
+                name: formData.get('name'),
+                location: formData.get('location'),
+                rank: formData.get('rank'),
+                students: formData.get('students')
+            };
+
+            const response = await fetch(API_BASE + '/universities', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(data)
+            });
+
+            if (response.ok) {
+                showToast('University updated successfully', 'success');
+                closeModal('editUniversityModal');
+                loadUniversities();
+            } else {
+                showToast('Failed to update university', 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('Error updating university', 'error');
+        }
+    }
+
     async function deleteUniversity(name) {
         if (!confirm('Are you sure you want to delete this university?')) return;
 
         try {
-            const response = await fetch(API_BASE + '/universities/' + name, {
+            const response = await fetch(API_BASE + '/universities/' + encodeURIComponent(name), {
                 method: 'DELETE'
             });
 
@@ -1500,6 +1646,43 @@
         }
     }
 
+    // ==================== PROFESSOR VIEW ====================
+    async function loadProfessorData() {
+        const coursesResponse = await fetch(API_BASE + '/courses');
+        const courses = await coursesResponse.json();
+
+        const professorCourses = courses.slice(0, 3);
+        const tbody = document.getElementById('professorCoursesTable');
+
+        if (professorCourses.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><div class="empty-state-text">No courses assigned</div></td></tr>';
+        } else {
+            tbody.innerHTML = professorCourses.map(c => `
+                <tr>
+                    <td><span class="badge badge-primary">${c.code}</span></td>
+                    <td>${c.name}</td>
+                    <td>${c.credits}</td>
+                    <td><span class="badge badge-success">${c.type}</span></td>
+                    <td>${c.enrolled || 0}</td>
+                </tr>
+            `).join('');
+        }
+
+        const scheduleContainer = document.getElementById('professorSchedule');
+        if (professorCourses.length > 0) {
+            scheduleContainer.innerHTML = professorCourses.map((c, i) => `
+                <div class="schedule-item">
+                    <div class="schedule-time">${['Monday 09:00-10:30', 'Wednesday 14:00-15:30', 'Friday 11:00-12:30'][i % 3]}</div>
+                    <div class="schedule-course">${c.name}</div>
+                    <div class="schedule-location">Room ${100 + i * 5}</div>
+                </div>
+            `).join('');
+        }
+
+        updateStats();
+    }
+
+    // ==================== UTILITIES ====================
     async function updateStats() {
         try {
             const [coursesRes, profsRes, unisRes] = await Promise.all([
