@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>University Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+        body{
+            margin:0;
+            min-height:100vh;
+            background:radial-gradient(circle at top,#1f2937,#020617);
+            color:#fff;
+            overflow-x:hidden
+        }
+        canvas{position:fixed;inset:0;z-index:0}
+        .container{position:relative;z-index:1;max-width:1200px;margin:auto;padding:40px}
+        .card{
+            background:rgba(255,255,255,.08);
+            backdrop-filter:blur(12px);
+            border-radius:18px;
+            padding:24px;
+            margin-bottom:24px;
+            box-shadow:0 20px 50px rgba(0,0,0,.45)
+        }
+        h1,h2{margin:0 0 16px}
+        input,select,button{
+            width:100%;
+            padding:12px;
+            border-radius:12px;
+            border:none;
+            margin-bottom:12px;
+            font-size:15px
+        }
+        input,select{background:#020617;color:#fff}
+        button{
+            background:linear-gradient(135deg,#6366f1,#22d3ee);
+            font-weight:700;
+            cursor:pointer
+        }
+        button:hover{transform:scale(1.03)}
+        .hidden{display:none}
+        .grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+            gap:24px
+        }
+        .list{margin-top:12px}
+        .item{
+            background:rgba(255,255,255,.06);
+            border-radius:12px;
+            padding:12px;
+            margin-bottom:10px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center
+        }
+        .badge{
+            background:#22d3ee;
+            color:#000;
+            border-radius:999px;
+            padding:4px 10px;
+            font-size:12px
+        }
+        .small{width:90px}
+        .fade{animation:fade .6s ease}
+        @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    </style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+
+    <div id="loginCard" class="card fade">
+        <h1>University System</h1>
+        <input id="loginUser" placeholder="Username">
+        <input id="loginPass" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div id="app" class="hidden">
+
+        <div class="card fade">
+            <h2 id="roleTitle"></h2>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <div id="adminPanel" class="hidden">
+
+            <div class="grid">
+
+                <div class="card">
+                    <h2>Courses</h2>
+                    <input id="cCode" placeholder="Code">
+                    <input id="cName" placeholder="Name">
+                    <input id="cCredits" placeholder="Credits">
+                    <select id="cType">
+                        <option>General</option>
+                        <option>Math</option>
+                        <option>Science</option>
+                    </select>
+                    <button onclick="addCourse()">Save</button>
+                    <div id="courseList" class="list"></div>
+                </div>
+
+                <div class="card">
+                    <h2>Professors</h2>
+                    <input id="pName" placeholder="Name">
+                    <input id="pSpec" placeholder="Specialty">
+                    <input id="pExp" placeholder="Experience">
+                    <select id="pTenured">
+                        <option value="true">Tenured</option>
+                        <option value="false">Not Tenured</option>
+                    </select>
+                    <button onclick="saveProfessor()">Save</button>
+                    <div id="profList" class="list"></div>
+                </div>
+
+                <div class="card">
+                    <h2>Universities</h2>
+                    <input id="uName" placeholder="Name">
+                    <input id="uLoc" placeholder="Location">
+                    <input id="uRank" placeholder="Ranking">
+                    <input id="uStud" placeholder="Students">
+                    <button onclick="addUniversity()">Add</button>
+                    <div id="uniList" class="list"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="profPanel" class="hidden">
+            <div class="card fade">
+                <h2>Professor Panel</h2>
+                <p>Read-only access enabled</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const users={
+        admin:{u:"admin",p:"admin123",r:"admin"},
+        prof:{u:"prof1",p:"prof123",r:"professor"}
+    }
+    let role=null
+    let editProfessorId=null
+
+    function login(){
+        const u=loginUser.value
+        const p=loginPass.value
+        for(const k in users){
+            const x=users[k]
+            if(x.u===u&&x.p===p){
+                role=x.r
+                loginCard.classList.add("hidden")
+                app.classList.remove("hidden")
+                roleTitle.innerText=role.toUpperCase()
+                if(role==="admin"){adminPanel.classList.remove("hidden");loadAll()}
+                if(role==="professor"){profPanel.classList.remove("hidden")}
+                return
+            }}
+        alert("Invalid credentials")
+    }
+
+    function logout(){location.reload()}
+
+    function loadAll(){
+        loadCourses()
+        loadProfessors()
+        loadUniversities()
+    }
+
+    /* COURSES */
+
+    async function loadCourses(){
+        const r=await fetch("/api/courses")
+        const d=await r.json()
+        courseList.innerHTML=""
+        d.forEach(c=>{
+            courseList.innerHTML+=`
+<div class="item">
+<span>${c.code} - ${c.name}</span>
+<button onclick="deleteCourse('${c.code}')">X</button>
+</div>`
+        })
+    }
+
+    async function addCourse(){
+        const body=new URLSearchParams({
+            code:cCode.value,
+            name:cName.value,
+            credits:cCredits.value,
+            type:cType.value
+        })
+        await fetch("/api/courses",{method:"POST",body})
+        loadCourses()
+    }
+
+    /* PROFESSORS */
+
+    async function loadProfessors(){
+        const r=await fetch("/api/professors")
+        const d=await r.json()
+        profList.innerHTML=""
+        d.forEach(p=>{
+            profList.innerHTML+=`
+<div class="item">
+<span>${p.name}</span>
+<div>
+<button onclick="editProfessor(${p.id},'${p.name}','${p.spec}',${p.exp})">Edit</button>
+<button onclick="deleteProfessor(${p.id})">X</button>
+</div>
+</div>`
+        })
+    }
+
+    function editProfessor(id,name,spec,exp){
+        editProfessorId=id
+        pName.value=name
+        pSpec.value=spec
+        pExp.value=exp
+        pTenured.value="true"
+    }
+
+    async function saveProfessor(){
+        const body=new URLSearchParams({
+            id:editProfessorId||"",
+            name:pName.value,
+            spec:pSpec.value,
+            exp:pExp.value,
+            tenured:pTenured.value
+        })
+        await fetch("/api/professors",{method:editProfessorId?"PUT":"POST",body})
+        editProfessorId=null
+        pName.value=pSpec.value=pExp.value=""
+        loadProfessors()
+    }
+
+    async function deleteProfessor(id){
+        await fetch("/api/professors/"+id,{method:"DELETE"})
+        loadProfessors()
+    }
+
+    /* UNIVERSITIES */
+
+    async function loadUniversities(){
+        const r=await fetch("/api/universities")
+        const d=await r.json()
+        uniList.innerHTML=""
+        d.forEach(u=>{
+            uniList.innerHTML+=`
+<div class="item">
+<span>${u.name}</span>
+<div>
+<input class="small" value="${u.rank}" onchange="updateRank('${u.name}',this.value)">
+<button onclick="deleteUniversity('${u.name}')">X</button>
+</div>
+</div>`
+        })
+    }
+
+    async function addUniversity(){
+        const body=[uName.value,uLoc.value,uRank.value,uStud.value].join(",")
+        await fetch("/api/universities",{method:"POST",body})
+        loadUniversities()
+    }
+
+    async function updateRank(name,rank){
+        await fetch("/api/universities",{method:"PUT",body:name+","+rank})
+    }
+
+    async function deleteUniversity(name){
+        await fetch("/api/universities/"+encodeURIComponent(name),{method:"DELETE"})
+        loadUniversities()
+    }
+
+    /* PARTICLES */
+
+    const c=document.getElementById("bg")
+    const x=c.getContext("2d")
+    c.width=innerWidth
+    c.height=innerHeight
+    let pts=Array.from({length:90},()=>({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5),vy:(Math.random()-.5)}))
+    function anim(){
+        x.clearRect(0,0,c.width,c.height)
+        pts.forEach(p=>{
+            p.x+=p.vx;p.y+=p.vy
+            if(p.x<0||p.x>c.width)p.vx*=-1
+            if(p.y<0||p.y>c.height)p.vy*=-1
+            x.fillStyle="rgba(255,255,255,.25)"
+            x.beginPath()
+            x.arc(p.x,p.y,2,0,Math.PI*2)
+            x.fill()
+        })
+        requestAnimationFrame(anim)
+    }
+    anim()
+</script>
+
+</body>
+</html>
