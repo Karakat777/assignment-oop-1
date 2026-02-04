@@ -1,9 +1,7 @@
 package models;
 
-import printable.Printable;
-import java.util.Objects;
-
-public class University implements Printable {
+public class University {
+    private int id;
     private String universityName;
     private String location;
     private int worldRanking;
@@ -16,25 +14,14 @@ public class University implements Printable {
         this.totalStudents = totalStudents;
     }
 
-    public void improveRanking(int positions) {
-        worldRanking -= positions;
-        if (worldRanking < 1) worldRanking = 1;
+    public static void printInfo(University u) {
+        System.out.println("University: " + u.getUniversityName() + " | Rank: " + u.getWorldRanking());
     }
 
-    public void improveRanking() { improveRanking(1); }
-
-    @Override
-    public final void printInfo() {
-        System.out.println("University → " + universityName + ", " + location + ", Ranking #" + worldRanking + ", Students: " + totalStudents);
-    }
-
-    @Override
-    public int hashCode() { return Objects.hash(universityName, location, worldRanking, totalStudents); }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof University)) return false;
-        University u = (University) obj;
-        return worldRanking == u.worldRanking && totalStudents == u.totalStudents && Objects.equals(universityName, u.universityName) && Objects.equals(location, u.location);
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    public String getUniversityName() { return universityName; }
+    public String getLocation() { return location; }
+    public int getWorldRanking() { return worldRanking; }
+    public int getTotalStudents() { return totalStudents; }
 }

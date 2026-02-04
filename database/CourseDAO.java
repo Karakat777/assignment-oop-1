@@ -1,29 +1,55 @@
 package database;
 
-import courseTypes.Math;
-import courseTypes.Science;
 import models.Course;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDAO {
+public class CourseDAO implements ICourseDAO {
+
+    @Override
     public List<Course> getAllCourses() {
-        List<Course> courses = new ArrayList<>();
+        List<Course> list = new ArrayList<>();
         String sql = "SELECT * FROM courses";
-        try (Statement stmt = DatabaseConnection.getConnection().createStatement();
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                String type = rs.getString("course_type");
-                if ("MATH".equals(type)) {
-                    courses.add(new Math(rs.getString("course_name"), rs.getString("course_code"), rs.getInt("credits"), rs.getInt("enrolled_students"), rs.getInt("max_student_count")));
-                } else {
-                    courses.add(new Science(rs.getString("course_name"), rs.getString("course_code"), rs.getInt("credits"), rs.getInt("enrolled_students"), rs.getInt("max_student_count"), rs.getInt("lab_hours"), rs.getBoolean("has_laboratory")));
-                }
+                Course c = new Course(
+                        rs.getString("course_code"),
+                        rs.getString("course_name"),
+                        rs.getInt("credits"),
+                        rs.getInt("enrolled_students"),
+                        rs.getString("course_type")
+                );
+                c.setId(rs.getInt("id"));
+                list.add(c);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return courses;
+        } catch (SQLException e) { e.printStackTrace(); }
+        return list;
+    }
+
+    @Override
+    public boolean addCourse(Course course) {
+        String sql = "INSERT INTO courses (course_code, course_name, credits, enrolled_students, course_type) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, course.getCourseCode());
+            pstmt.setString(2, course.getCourseName());
+            pstmt.setInt(3, course.getCredits());
+            pstmt.setInt(4, course.getEnrolledStudents());
+            pstmt.setString(5, course.getCourseType() != null ? course.getCourseType() : "General");
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) { e.printStackTrace(); return false; }
+    }
+
+    @Override
+    public boolean deleteCourse(String code) {
+        String sql = "DELETE FROM courses WHERE course_code = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, code);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) { e.printStackTrace(); return false; }
     }
 }

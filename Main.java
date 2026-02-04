@@ -16,7 +16,12 @@ public class Main {
     uniDAO.updateRanking("Stanford University", 2);
 
     ProfessorDAO profDAO = new ProfessorDAO();
-    profDAO.addProfessor(new Professor("Dr. Alan Turing", "Cryptography", 20, true));
+    Professor newProf = new Professor("Dr. Alan Turing", "Cryptography", 20, true);
+    if (profDAO.addProfessor(newProf)) {
+      System.out.println("Professor added successfully");
+    } else {
+      System.out.println("Professor already exists");
+    }
     profDAO.getTenuredProfessors().forEach(System.out::println);
 
     CourseDAO courseDAO = new CourseDAO();

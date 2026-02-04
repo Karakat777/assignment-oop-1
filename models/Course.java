@@ -1,35 +1,43 @@
 package models;
 
-import printable.Printable;
-import java.util.Objects;
+public class Course {
+    private int id;
+    private String courseCode;
+    private String courseName;
+    private int credits;
+    private int enrolledStudents;
+    private String courseType;
 
-public abstract class Course implements Printable {
-    protected String courseName;
-    protected String courseCode;
-    protected int credits;
-    protected int enrolledStudents;
-
-    public Course(String courseName, String courseCode, int credits, int enrolledStudents) {
-        this.courseName = courseName;
+    public Course(String courseCode, String courseName) {
         this.courseCode = courseCode;
+        this.courseName = courseName;
+        this.credits = 0;
+        this.courseType = "General";
+    }
+
+    public Course(String courseCode, String courseName, int credits, int enrolledStudents, String courseType) {
+        this.courseCode = courseCode;
+        this.courseName = courseName;
         this.credits = credits;
         this.enrolledStudents = enrolledStudents;
+        this.courseType = courseType;
     }
 
-    public String getCourseName() { return courseName; }
+    // ЭТИ МЕТОДЫ НУЖНЫ, ЧТОБЫ @Override В НАСЛЕДНИКАХ РАБОТАЛ
+    public boolean isFull() {
+        return false;
+    }
+
+    public void printInfo() {
+        System.out.println("Course: " + courseName);
+    }
+
+    // Геттеры и сеттеры
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
     public String getCourseCode() { return courseCode; }
+    public String getCourseName() { return courseName; }
     public int getCredits() { return credits; }
     public int getEnrolledStudents() { return enrolledStudents; }
-    public abstract boolean isFull();
-
-    @Override
-    public int hashCode() { return Objects.hash(courseName, courseCode, credits, enrolledStudents); }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Course)) return false;
-        Course course = (Course) obj;
-        return credits == course.credits && enrolledStudents == course.enrolledStudents && Objects.equals(courseName, courseName) && Objects.equals(courseCode, courseCode);
-    }
+    public String getCourseType() { return courseType; }
 }
