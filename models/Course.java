@@ -1,5 +1,4 @@
 package models;
-
 public class Course {
     private int id;
     private String courseCode;
@@ -7,14 +6,12 @@ public class Course {
     private int credits;
     private int enrolledStudents;
     private String courseType;
-
     public Course(String courseCode, String courseName) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.credits = 0;
         this.courseType = "General";
     }
-
     public Course(String courseCode, String courseName, int credits, int enrolledStudents, String courseType) {
         this.courseCode = courseCode;
         this.courseName = courseName;
@@ -22,17 +19,12 @@ public class Course {
         this.enrolledStudents = enrolledStudents;
         this.courseType = courseType;
     }
-
-    // ЭТИ МЕТОДЫ НУЖНЫ, ЧТОБЫ @Override В НАСЛЕДНИКАХ РАБОТАЛ
     public boolean isFull() {
         return false;
     }
-
     public void printInfo() {
         System.out.println("Course: " + courseName);
     }
-
-    // Геттеры и сеттеры
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getCourseCode() { return courseCode; }

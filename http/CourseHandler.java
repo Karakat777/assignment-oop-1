@@ -1,5 +1,4 @@
 package http;
-
 import database.CourseDAO;
 import models.Course;
 import com.sun.net.httpserver.HttpExchange;
@@ -8,15 +7,12 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-
 public class CourseHandler extends BaseHandler {
     private final CourseDAO courseDAO = new CourseDAO();
-
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
         String path = exchange.getRequestURI().getPath();
-
         try {
             switch (method) {
                 case "GET":    handleGet(exchange); break;
@@ -29,7 +25,6 @@ public class CourseHandler extends BaseHandler {
             sendResponse(exchange, "Error: " + e.getMessage(), 500, "text/plain");
         }
     }
-
     private void handleGet(HttpExchange exchange) throws IOException {
         List<Course> list = courseDAO.getAllCourses();
         StringBuilder json = new StringBuilder("[");
@@ -42,7 +37,6 @@ public class CourseHandler extends BaseHandler {
         json.append("]");
         sendResponse(exchange, json.toString(), 200, "application/json");
     }
-
     private void handlePost(HttpExchange exchange) throws IOException {
         Map<String, String> params = parseFormData(getRequestBody(exchange));
 
@@ -60,7 +54,6 @@ public class CourseHandler extends BaseHandler {
         }
         sendResponse(exchange, "Invalid Data or DB Error", 400, "text/plain");
     }
-
     private void handleDelete(HttpExchange exchange, String path) throws IOException {
         String code = path.substring(path.lastIndexOf("/") + 1);
         String decodedCode = URLDecoder.decode(code, StandardCharsets.UTF_8);

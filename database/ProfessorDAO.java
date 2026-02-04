@@ -1,12 +1,9 @@
 package database;
-
 import models.Professor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 public class ProfessorDAO implements IProfessorDAO {
-
     @Override
     public List<Professor> getTenuredProfessors() { // Проверь это имя
         List<Professor> list = new ArrayList<>();
@@ -27,7 +24,6 @@ public class ProfessorDAO implements IProfessorDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return list;
     }
-
     @Override
     public boolean addProfessor(Professor p) { // Проверь это имя
         String sql = "INSERT INTO professors (name, specialty, years_of_experience, is_tenured) VALUES (?, ?, ?, ?)";
@@ -40,7 +36,6 @@ public class ProfessorDAO implements IProfessorDAO {
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) { return false; }
     }
-
     public boolean updateProfessor(Professor p) { // Проверь это имя
         String sql = "UPDATE professors SET name = ?, specialty = ?, years_of_experience = ?, is_tenured = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -53,7 +48,6 @@ public class ProfessorDAO implements IProfessorDAO {
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) { return false; }
     }
-
     public boolean deleteProfessor(int id) { // Проверь это имя
         String sql = "DELETE FROM professors WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

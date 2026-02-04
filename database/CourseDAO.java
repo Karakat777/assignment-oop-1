@@ -1,12 +1,9 @@
 package database;
-
 import models.Course;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 public class CourseDAO implements ICourseDAO {
-
     @Override
     public List<Course> getAllCourses() {
         List<Course> list = new ArrayList<>();
@@ -28,7 +25,6 @@ public class CourseDAO implements ICourseDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return list;
     }
-
     @Override
     public boolean addCourse(Course course) {
         String sql = "INSERT INTO courses (course_code, course_name, credits, enrolled_students, course_type) VALUES (?, ?, ?, ?, ?)";
@@ -42,7 +38,6 @@ public class CourseDAO implements ICourseDAO {
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) { e.printStackTrace(); return false; }
     }
-
     @Override
     public boolean deleteCourse(String code) {
         String sql = "DELETE FROM courses WHERE course_code = ?";

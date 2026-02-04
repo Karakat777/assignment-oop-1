@@ -1,5 +1,4 @@
 package http;
-
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
@@ -9,9 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
 public abstract class BaseHandler implements HttpHandler {
-    // Используем protected, чтобы CourseHandler мог видеть эти методы
     protected void sendResponse(HttpExchange exchange, String response, int statusCode, String contentType) throws IOException {
         byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().set("Content-Type", contentType + "; charset=UTF-8");
@@ -20,12 +17,10 @@ public abstract class BaseHandler implements HttpHandler {
             os.write(bytes);
         }
     }
-
     protected String getRequestBody(HttpExchange exchange) {
         Scanner s = new Scanner(exchange.getRequestBody(), StandardCharsets.UTF_8).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
-
     protected Map<String, String> parseFormData(String formData) {
         Map<String, String> map = new HashMap<>();
         if (formData == null || formData.isEmpty()) return map;

@@ -1,12 +1,9 @@
 package database;
-
 import models.University;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 public class UniversityDAO {
-
     public List<University> getAllUniversities() {
         List<University> list = new ArrayList<>();
         String sql = "SELECT * FROM universities";
@@ -28,7 +25,6 @@ public class UniversityDAO {
         }
         return list;
     }
-
     public boolean addUniversity(University u) {
         String sql = "INSERT INTO universities (university_name, location, world_ranking, total_students) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -43,7 +39,6 @@ public class UniversityDAO {
             return false;
         }
     }
-
     public void updateRanking(String name, int newRanking) {
         String sql = "UPDATE universities SET world_ranking = ? WHERE university_name = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -55,7 +50,6 @@ public class UniversityDAO {
             e.printStackTrace();
         }
     }
-
     public boolean deleteUniversity(String name) {
         String sql = "DELETE FROM universities WHERE university_name = ?";
         try (Connection conn = DatabaseConnection.getConnection();
