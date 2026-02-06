@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class ProfessorDAO implements IProfessorDAO {
     @Override
-    public List<Professor> getTenuredProfessors() { // Проверь это имя
+    public List<Professor> getTenuredProfessors() {
         List<Professor> list = new ArrayList<>();
         String sql = "SELECT * FROM professors";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -25,7 +25,7 @@ public class ProfessorDAO implements IProfessorDAO {
         return list;
     }
     @Override
-    public boolean addProfessor(Professor p) { // Проверь это имя
+    public boolean addProfessor(Professor p) {
         String sql = "INSERT INTO professors (name, specialty, years_of_experience, is_tenured) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -48,7 +48,7 @@ public class ProfessorDAO implements IProfessorDAO {
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) { return false; }
     }
-    public boolean deleteProfessor(int id) { // Проверь это имя
+    public boolean deleteProfessor(int id) {
         String sql = "DELETE FROM professors WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

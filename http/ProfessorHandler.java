@@ -18,11 +18,11 @@ public class ProfessorHandler extends BaseHandler {
                 case "PUT":    handlePut(exchange); break;
                 case "DELETE": handleDelete(exchange, path); break;
                 default:
-                    sendResponse(exchange, "Метод не поддерживается", 405, "text/plain");
+                    sendResponse(exchange, "Method not supported", 405, "text/plain");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            sendResponse(exchange, "Ошибка: " + e.getMessage(), 500, "text/plain");
+            sendResponse(exchange, "error:" + e.getMessage(), 500, "text/plain");
         }
     }
     private void handleGet(HttpExchange exchange) throws IOException {
@@ -42,9 +42,9 @@ public class ProfessorHandler extends BaseHandler {
         Professor prof = mapToProfessor(params);
 
         if (professorDAO.addProfessor(prof)) {
-            sendResponse(exchange, "Профессор добавлен", 201, "text/plain");
+            sendResponse(exchange, "Professor added", 201, "text/plain");
         } else {
-            sendResponse(exchange, "Ошибка БД", 500, "text/plain");
+            sendResponse(exchange, "error db", 500, "text/plain");
         }
     }
     private void handlePut(HttpExchange exchange) throws IOException {
@@ -52,23 +52,23 @@ public class ProfessorHandler extends BaseHandler {
         Professor prof = mapToProfessor(params);
 
         if (params.get("id") == null) {
-            sendResponse(exchange, "ID обязателен", 400, "text/plain");
+            sendResponse(exchange, "ID required", 400, "text/plain");
             return;
         }
         prof.setId(Integer.parseInt(params.get("id")));
 
         if (professorDAO.updateProfessor(prof)) {
-            sendResponse(exchange, "Данные обновлены", 200, "text/plain");
+            sendResponse(exchange, "Data updated", 200, "text/plain");
         } else {
-            sendResponse(exchange, "Профессор не найден", 404, "text/plain");
+            sendResponse(exchange, "Professor not found", 404, "text/plain");
         }
     }
     private void handleDelete(HttpExchange exchange, String path) throws IOException {
         String idStr = path.substring(path.lastIndexOf("/") + 1);
         if (professorDAO.deleteProfessor(Integer.parseInt(idStr))) {
-            sendResponse(exchange, "Удалено", 200, "text/plain");
+            sendResponse(exchange, "deleted", 200, "text/plain");
         } else {
-            sendResponse(exchange, "ID не найден", 404, "text/plain");
+            sendResponse(exchange, "ID not found", 404, "text/plain");
         }
     }
     private Professor mapToProfessor(Map<String, String> params) {
